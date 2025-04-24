@@ -1,9 +1,33 @@
-// src/routes/bookRoutes.js
 const express = require('express');
 const router = express.Router();
 const Book = require('../models/book');
 
-// GET all books
+/**
+ * @swagger
+ * tags:
+ *   name: Books
+ *   description: API for managing books
+ */
+
+/**
+ * @swagger
+ * /books:
+ *   get:
+ *     summary: Get all books
+ *     tags: [Books]
+ *     operationId: getAllBooks
+ *     responses:
+ *       200:
+ *         description: A list of books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Book'
+ *       500:
+ *         description: Server error
+ */
 router.get('/', async (req, res) => {
   try {
     const books = await Book.findAll();
@@ -13,7 +37,32 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET a single book by ID
+/**
+ * @swagger
+ * /books/{book_id}:
+ *   get:
+ *     summary: Get a single book by ID
+ *     tags: [Books]
+ *     operationId: getBookById
+ *     parameters:
+ *       - in: path
+ *         name: book_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the book to retrieve
+ *     responses:
+ *       200:
+ *         description: Book details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Book not found
+ *       500:
+ *         description: Server error
+ */
 router.get('/:book_id', async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.book_id);
@@ -26,7 +75,46 @@ router.get('/:book_id', async (req, res) => {
   }
 });
 
-// POST create a new book
+/**
+ * @swagger
+ * /books:
+ *   post:
+ *     summary: Create a new book
+ *     tags: [Books]
+ *     operationId: createBook
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               isbn:
+ *                 type: string
+ *               quantity_available:
+ *                 type: integer
+ *               author_id:
+ *                 type: integer
+ *               category_id:
+ *                 type: integer
+ *             required:
+ *               - title
+ *               - isbn
+ *               - quantity_available
+ *               - author_id
+ *               - category_id
+ *     responses:
+ *       201:
+ *         description: Book created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       400:
+ *         description: Bad request
+ */
 router.post('/', async (req, res) => {
   try {
     const newBook = await Book.create({
@@ -42,7 +130,49 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT update a book
+/**
+ * @swagger
+ * /books/{book_id}:
+ *   put:
+ *     summary: Update a book
+ *     tags: [Books]
+ *     operationId: updateBook
+ *     parameters:
+ *       - in: path
+ *         name: book_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the book to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               title:
+ *                 type: string
+ *               isbn:
+ *                 type: string
+ *               quantity_available:
+ *                 type: integer
+ *               author_id:
+ *                 type: integer
+ *               category_id:
+ *                 type: integer
+ *     responses:
+ *       200:
+ *         description: Book updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Book'
+ *       404:
+ *         description: Book not found
+ *       400:
+ *         description: Bad request
+ */
 router.put('/:book_id', async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.book_id);
@@ -56,7 +186,28 @@ router.put('/:book_id', async (req, res) => {
   }
 });
 
-// DELETE a book
+/**
+ * @swagger
+ * /books/{book_id}:
+ *   delete:
+ *     summary: Delete a book
+ *     tags: [Books]
+ *     operationId: deleteBook
+ *     parameters:
+ *       - in: path
+ *         name: book_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the book to delete
+ *     responses:
+ *       204:
+ *         description: Book deleted successfully
+ *       404:
+ *         description: Book not found
+ *       500:
+ *         description: Server error
+ */
 router.delete('/:book_id', async (req, res) => {
   try {
     const book = await Book.findByPk(req.params.book_id);

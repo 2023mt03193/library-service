@@ -4,6 +4,61 @@ const { User, Role } = require('../models/user'); // Correct import
 const Book = require('../models/book');
 const Borrow = require('../models/borrow');
 
+/**
+ * @swagger
+ * tags:
+ *   name: Borrow
+ *   description: API for borrowing books
+ */
+
+/**
+ * @swagger
+ * /borrow:
+ *   post:
+ *     summary: Borrow a book
+ *     tags: [Borrow]
+ *     operationId: borrowBook
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_id:
+ *                 type: integer
+ *                 description: ID of the user borrowing the book
+ *               book_id:
+ *                 type: integer
+ *                 description: ID of the book to be borrowed
+ *             required:
+ *               - user_id
+ *               - book_id
+ *     responses:
+ *       201:
+ *         description: Book borrowed successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   description: Success message
+ *                 due_date:
+ *                   type: string
+ *                   format: date
+ *                   description: Due date for returning the book
+ *       400:
+ *         description: Book not available or bad request
+ *       403:
+ *         description: Only students can borrow books
+ *       404:
+ *         description: Book not found
+ *       500:
+ *         description: Server error
+ */
+
 // Borrow a book (user_id passed explicitly)
 router.post('/borrow', async (req, res) => {
   console.log("testing ")

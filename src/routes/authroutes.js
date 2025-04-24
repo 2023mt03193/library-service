@@ -4,6 +4,47 @@ const bcrypt = require('bcryptjs');
 const { User, Role } = require('../models/user'); // Assuming Role model exists
 const jwt = require('jsonwebtoken');
 
+/**
+ * @swagger
+ * /auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Authentication]
+ *     operationId: registerUser
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: Username for the new user
+ *               password:
+ *                 type: string
+ *                 description: Password for the new user
+ *               email:
+ *                 type: string
+ *                 description: Email of the new user
+ *               role:
+ *                 type: string
+ *                 description: >
+ *                   Role of the user. Defaults to "STUDENT" if not provided.
+ *             required:
+ *               - username
+ *               - password
+ *               - email
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *       400:
+ *         description: Missing required fields or invalid role
+ *       409:
+ *         description: Username already exists
+ *       500:
+ *         description: Server error
+ */
 
 // Register a user (default: STUDENT role)
 router.post('/register', async (req, res) => {

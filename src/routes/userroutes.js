@@ -1,6 +1,96 @@
+
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+
+/**
+ * @swagger
+ * tags:
+ *   name: Users
+ *   description: API for managing users
+ */
+
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Get all users
+ *     tags: [Users]
+ *     operationId: getAllUsers
+ *     responses:
+ *       200:
+ *         description: A list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *       500:
+ *         description: Server error
+ */
+
+/**
+ * @swagger
+ * /:
+ *   post:
+ *     summary: Create a new user
+ *     tags: [Users]
+ *     operationId: createUser
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *               password_hash:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *             required:
+ *               - username
+ *               - password_hash
+ *               - email
+ *     responses:
+ *       201:
+ *         description: User created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       400:
+ *         description: Bad request
+ */
+
+/**
+ * @swagger
+ * /user/{user_id}/books:
+ *   get:
+ *     summary: Get books borrowed by a user
+ *     tags: [Users]
+ *     operationId: getUserBorrowedBooks
+ *     parameters:
+ *       - in: path
+ *         name: user_id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID of the user
+ *     responses:
+ *       200:
+ *         description: A list of borrowed books
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Borrow'
+ *       500:
+ *         description: Server error
+ */
 
 // Get all users
 router.get('/', async (req, res) => {
