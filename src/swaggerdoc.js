@@ -11,7 +11,7 @@ const swaggerOptions = {
         },
         servers: [
             {
-                url: 'http://localhost:3000', // Replace with your server URL
+                url: 'http://localhost:3000/api/', // Replace with your server URL
             },
         ],
         components: {
