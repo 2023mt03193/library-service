@@ -12,11 +12,11 @@ const { swaggerUi, swaggerDocs } = require('./swaggerdoc'); // Import swaggerUi 
 app.use(bodyParser.json());
 
 // Routes
-app.use('/api/users', userroutes);
-app.use('/api/books', bookroutes);
-app.use('/api/auth', authroutes);
-app.use('/api/admin', adminroutes);
-app.use('/api/borrow', borrowroutes);
+app.use('/api/users', userRoutes);
+app.use('/api/books', bookRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/borrow', borrowRoutes);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 
